@@ -1,7 +1,7 @@
 import React from "react";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Link, Tabs } from "expo-router";
-import { Pressable } from "react-native";
+import { Pressable, SafeAreaView } from "react-native";
 
 import Colors from "@/constants/Colors";
 import { useColorScheme } from "@/components/useColorScheme";
@@ -21,8 +21,17 @@ export default function TabLayout() {
 
   return (
     <Tabs
+      sceneContainerStyle={{
+        padding: 0,
+        margin: 0,
+        width: "100%",
+      }}
       screenOptions={{
         headerStyle: {
+          paddingHorizontal: 0,
+          marginHorizontal: 0,
+          paddingVertical: 0,
+          marginVertical: 0,
           shadowColor: "transparent", // 移除头部下的阴影（iOS）
           borderBottomWidth: 0, // 移除头部下的边框（Android）
         },
@@ -36,8 +45,8 @@ export default function TabLayout() {
         name="index"
         options={{
           title: "首页",
-          headerTitle: (props) => <HeaderIndex {...props} />,
-          // header: () => null,
+          // headerTitle: (props) => <HeaderIndex {...props} />,
+          header: () => null,
           tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
           // headerRight: () => (
           //   <Link href="/modal" asChild>
