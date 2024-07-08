@@ -4,13 +4,19 @@ import { StyleSheet, ScrollView } from "react-native";
 import EditScreenInfo from "@/components/EditScreenInfo";
 import { Text, View } from "@/components/Themed";
 import { Tab, Text as TbText, TabView } from "@rneui/themed";
+import Carousel from "@/components/carousel";
 
 const TABS = ["电影", "美剧", "英剧", "韩剧", "日剧", "泰剧", "其他"];
 export default function TabOneScreen() {
   const [index, setIndex] = useState(0);
+  const [disableSwipe, setDisableSwipe] = useState(false);
+
+  const handleChangeDisableSwipe = (value: boolean) => {
+    setDisableSwipe(value);
+  };
+
   return (
     <View style={styles.container}>
-      {/* <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}> */}
       <Tab
         scrollable={true}
         value={index}
@@ -21,11 +27,25 @@ export default function TabOneScreen() {
         }}
         variant="primary"
       >
-        {TABS.map((tab) => (
-          <Tab.Item title={tab} titleStyle={{ fontSize: 12 }} />
+        {TABS.map((tab, index) => (
+          <Tab.Item key={index} title={tab} titleStyle={{ fontSize: 12 }} />
         ))}
       </Tab>
-      {/* </ScrollView> */}
+      <TabView
+        disableSwipe={disableSwipe}
+        value={index}
+        onChange={(e) => setIndex(e)}
+        animationType="spring"
+      >
+        {TABS.map((tab, index) => (
+          <TabView.Item key={index}>
+            <ScrollView>
+              <Carousel handleChangeDisableSwipe={handleChangeDisableSwipe} />
+              <View style={{ height: 500, backgroundColor: "white" }}></View>
+            </ScrollView>
+          </TabView.Item>
+        ))}
+      </TabView>
     </View>
   );
 }
