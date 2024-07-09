@@ -36,6 +36,9 @@ export default function TabOneScreen() {
         value={index}
         onChange={(e) => setIndex(e)}
         animationType="spring"
+        tabItemContainerStyle={{
+          paddingHorizontal: 15,
+        }}
       >
         {TABS.map((tab, index) => (
           <TabView.Item key={index}>

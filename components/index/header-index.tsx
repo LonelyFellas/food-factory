@@ -44,7 +44,7 @@ export default HeaderIndex;
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: 20,
+    paddingHorizontal: 15,
     paddingVertical: 5,
     gap: 20,
     flexDirection: "row",
