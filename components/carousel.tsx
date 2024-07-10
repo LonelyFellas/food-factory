@@ -7,6 +7,7 @@ import {
   Image,
   NativeSyntheticEvent,
   NativeScrollEvent,
+  GestureResponderEvent,
 } from "react-native";
 
 const { width: screenWidth } = Dimensions.get("window");
@@ -67,20 +68,37 @@ const Carousel: React.FC<{
 }> = ({ handleChangeDisableSwipe }) => {
   const [currentIndex, setCurrentIndex] = React.useState(0);
   const [scrollX, setScrollX] = React.useState(0);
+  const intervalRef = React.useRef<NodeJS.Timeout>();
+  const len = movieList.length;
 
   React.useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentIndex((currentIndex + 1) % movieList.length);
-      setScrollX((scrollX + screenWidth) % (movieList.length * screenWidth));
-      console.log(currentIndex);
-    }, 2000);
-    return () => clearInterval(interval);
+    startInterval();
+    return () => {
+      intervalRef.current && clearInterval(intervalRef.current);
+    };
   }, []);
 
+  const startInterval = () => {
+    intervalRef.current = setInterval(() => {
+      const width = screenWidth - 30;
+      if (currentIndex === len - 1) {
+        setCurrentIndex(0);
+        setScrollX(0);
+      } else {
+        setCurrentIndex((prev) => (prev + 1) % len);
+        setScrollX((prev) => (prev + width) % (len * width));
+      }
+    }, 2000);
+  };
+  // console.log(scrollX);
+
   const handleTouchStart = () => {
+    clearInterval(intervalRef.current);
     handleChangeDisableSwipe(true);
   };
-  const handleTouchEnd = () => {
+  const handleTouchEnd = (event: GestureResponderEvent) => {
+    console.log(event);
+    startInterval();
     handleChangeDisableSwipe(false);
   };
   // const handleScroll = React.useCallback(
